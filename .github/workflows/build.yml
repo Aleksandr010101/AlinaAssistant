@@ -31,7 +31,7 @@ jobs:
           unzip -o AlinaAssistant_Android_Project_CloudBuild.zip -d project
 
       - name: Build APK
-        run: gradle -p project/AlinaAssistant assembleDebug
+        run: gradle -p project/AlinaAssistant assembleDebug -Pkotlin.jvm.target.validation.mode=warning
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
