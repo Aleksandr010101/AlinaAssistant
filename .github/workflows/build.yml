@@ -20,21 +20,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
       - name: Extract project
         run: |
           mkdir -p project
           unzip -o AlinaAssistant_Android_Project_CloudBuild.zip -d project
 
       - name: Build APK
-        run: |
-          GRADLEW=$(find project -name gradlew -type f | head -n 1)
-          test -n "$GRADLEW"
-          cd "$(dirname "$GRADLEW")"
-          chmod +x gradlew
-          ./gradlew assembleDebug
+        run: gradle -p project/AlinaAssistant assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: AlinaAssistant-APK
-          path: project/**/app/build/outputs/apk/debug/*.apk
+          path: project/AlinaAssistant/app/build/outputs/apk/debug/*.apk
